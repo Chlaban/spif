@@ -989,7 +989,7 @@ bool SPIF_WriteSector(SPIF_HandleTypeDef *Handle, uint32_t SectorNumber, uint8_t
 		uint32_t pageOffset = Offset % SPIF_PAGE_SIZE;
 		while (remainingBytes > 0 && pageNumber < ((SectorNumber + 1) * (SPIF_SECTOR_SIZE / SPIF_PAGE_SIZE)))
 		{
-			uint32_t bytesToWrite = (remainingBytes > SPIF_PAGE_SIZE) ? SPIF_PAGE_SIZE : remainingBytes;
+			uint32_t bytesToWrite = (remainingBytes + pageOffset) > SPIF_PAGE_SIZE ? SPIF_PAGE_SIZE  - pageOffset : remainingBytes;
 			if (SPIF_WriteFn(Handle, pageNumber, Data + bytesWritten, bytesToWrite, pageOffset) == false)
 			{
 				retVal = false;
@@ -1081,7 +1081,7 @@ bool SPIF_ReadSector(SPIF_HandleTypeDef *Handle, uint32_t SectorNumber, uint8_t 
 {
 	SPIF_Lock(Handle);
 	bool retVal = false;
-	uint32_t address = SPIF_SectorToAddress(SectorNumber);
+	uint32_t address = SPIF_SectorToAddress(SectorNumber)+Offset;;
 	uint32_t maximum = SPIF_SECTOR_SIZE - Offset;
 	if (Size > maximum)
 	{
