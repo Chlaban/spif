@@ -1081,7 +1081,7 @@ bool SPIF_ReadSector(SPIF_HandleTypeDef *Handle, uint32_t SectorNumber, uint8_t 
 {
 	SPIF_Lock(Handle);
 	bool retVal = false;
-	uint32_t address = SPIF_SectorToAddress(SectorNumber)+Offset;;
+	uint32_t address = SPIF_SectorToAddress(SectorNumber)+Offset;
 	uint32_t maximum = SPIF_SECTOR_SIZE - Offset;
 	if (Size > maximum)
 	{
