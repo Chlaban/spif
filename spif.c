@@ -969,6 +969,8 @@ bool SPIF_WritePage(SPIF_HandleTypeDef *Handle, uint32_t PageNumber, uint8_t *Da
 
 bool SPIF_WriteSector(SPIF_HandleTypeDef *Handle, uint32_t SectorNumber, uint8_t *Data, uint32_t Size, uint32_t Offset)
 {
+	if (Offset == 0 )
+		SPIF_EraseSector(Handle, SectorNumber);
 	SPIF_Lock(Handle);
 	bool retVal = true;
 	do
